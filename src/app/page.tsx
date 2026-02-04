@@ -1,65 +1,92 @@
-import Image from "next/image";
+import { Navbar } from "@/components/Navbar";
+import { Hero } from "@/components/Hero";
+import { LeaderboardTable } from "@/components/LeaderboardTable";
+import { RetrievalTable } from "@/components/RetrievalTable";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <main className="min-h-screen bg-background">
+      <Navbar />
+      <Hero />
+      <div className="container px-4 mx-auto pb-20">
+        <Tabs defaultValue="performance" className="w-full">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6">
+            <div>
+              <h2 className="text-3xl font-bold tracking-tight">Leaderboard</h2>
+              <p className="text-muted-foreground">Evaluating context retrieval across multiple LLM families.</p>
+            </div>
+            <TabsList className="grid w-full md:w-auto grid-cols-2">
+              <TabsTrigger value="performance">Performance</TabsTrigger>
+              <TabsTrigger value="retrieval">Retrieval Analysis</TabsTrigger>
+            </TabsList>
+          </div>
+
+          <TabsContent value="performance" className="mt-0 space-y-4">
+            <div className="bg-card rounded-xl border shadow-sm overflow-hidden">
+              <div className="p-6 border-b flex flex-col md:flex-row md:items-center justify-between gap-4 bg-muted/30">
+                <div>
+                  <h3 className="text-xl font-semibold">Core Performance</h3>
+                  <p className="text-sm text-muted-foreground">Primary metrics: Pass@1 and F1 scores at different levels.</p>
+                </div>
+                <div className="flex gap-2">
+                  <div className="px-3 py-1 bg-primary/10 text-primary text-xs font-bold rounded-full border border-primary/20">
+                    LITE BENCHMARK
+                  </div>
+                  <div className="px-3 py-1 bg-muted text-muted-foreground text-xs font-bold rounded-full border">
+                    V1.0
+                  </div>
+                </div>
+              </div>
+              <div className="p-0">
+                <LeaderboardTable />
+              </div>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="retrieval" className="mt-0 space-y-4">
+            <div className="bg-card rounded-xl border shadow-sm overflow-hidden">
+              <div className="p-6 border-b flex flex-col md:flex-row md:items-center justify-between gap-4 bg-muted/30">
+                <div>
+                  <h3 className="text-xl font-semibold">Retrieval Dynamics</h3>
+                  <p className="text-sm text-muted-foreground">Detailed analysis of how models navigate context retrieval.</p>
+                </div>
+              </div>
+              <div className="p-6">
+                <RetrievalTable />
+              </div>
+            </div>
+          </TabsContent>
+        </Tabs>
+        
+        <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="group p-6 rounded-2xl border bg-card transition-all hover:shadow-md hover:border-primary/20">
+            <div className="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center mb-4 text-blue-600 font-bold group-hover:bg-blue-500/20">1</div>
+            <h3 className="font-bold text-lg mb-2">Multi-level Evaluation</h3>
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              We assess models at file, block, and line levels to capture the full spectrum of retrieval accuracy, moving beyond simple end-to-end pass rates.
+            </p>
+          </div>
+          <div className="group p-6 rounded-2xl border bg-card transition-all hover:shadow-md hover:border-primary/20">
+            <div className="w-10 h-10 rounded-lg bg-purple-500/10 flex items-center justify-center mb-4 text-purple-600 font-bold group-hover:bg-purple-500/20">2</div>
+            <h3 className="font-bold text-lg mb-2">Agentic Frameworks</h3>
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              Benchmarks are conducted using standardized coding agent scaffolding, ensuring that results reflect real-world automated development workflows.
+            </p>
+          </div>
+          <div className="group p-6 rounded-2xl border bg-card transition-all hover:shadow-md hover:border-primary/20">
+            <div className="w-10 h-10 rounded-lg bg-amber-500/10 flex items-center justify-center mb-4 text-amber-600 font-bold group-hover:bg-amber-500/20">3</div>
+            <h3 className="font-bold text-lg mb-2">Efficiency & Dynamics</h3>
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              We analyze the internal dynamics of retrieval, including step efficiency and redundancy, providing deeper insights into model "thinking" patterns.
+            </p>
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+
+        <footer className="mt-20 pt-8 border-t text-center text-sm text-muted-foreground">
+          <p>© 2026 ContextBench Research Group. All rights reserved.</p>
+        </footer>
+      </div>
+    </main>
   );
 }

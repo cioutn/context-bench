@@ -61,7 +61,7 @@ interface DetailedTableProps {
 
 export const DetailedTable = ({ systemType }: DetailedTableProps) => {
   const data = useMemo<BenchmarkResult[]>(() => {
-    return systemType === "agent" ? (agentData as BenchmarkResult[]) : (backboneData as BenchmarkResult[]);
+    return (systemType === "agent" ? agentData : backboneData) as BenchmarkResult[];
   }, [systemType]);
 
   const [sorting, setSorting] = useState<SortingState>([
@@ -78,6 +78,7 @@ export const DetailedTable = ({ systemType }: DetailedTableProps) => {
         </span>
       ),
     },
+    // File-Level Group
     {
       id: "file_level",
       header: () => <div className="text-center py-1.5 bg-slate-100/50 rounded-md text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-1.5 border border-slate-200/50">File Level</div>,
@@ -87,6 +88,7 @@ export const DetailedTable = ({ systemType }: DetailedTableProps) => {
         { accessorKey: "performance.file.f1", header: "F1", cell: ({ row }) => <MetricCell value={row.original.performance.file.f1} isBold colorClass="text-slate-700" /> },
       ],
     },
+    // Block-Level Group
     {
       id: "block_level",
       header: () => <div className="text-center py-1.5 bg-indigo-100/50 rounded-md text-[10px] font-bold uppercase tracking-widest text-indigo-500 mb-1.5 border border-indigo-200/50">Block Level</div>,
@@ -96,6 +98,7 @@ export const DetailedTable = ({ systemType }: DetailedTableProps) => {
         { accessorKey: "performance.block.f1", header: "F1", cell: ({ row }) => <MetricCell value={row.original.performance.block.f1} isBold colorClass="text-indigo-700" /> },
       ],
     },
+    // Line-Level Group
     {
       id: "line_level",
       header: () => <div className="text-center py-1.5 bg-blue-100/50 rounded-md text-[10px] font-bold uppercase tracking-widest text-blue-500 mb-1.5 border border-blue-200/50">Line Level</div>,
@@ -105,6 +108,7 @@ export const DetailedTable = ({ systemType }: DetailedTableProps) => {
         { accessorKey: "performance.line.f1", header: "F1", cell: ({ row }) => <MetricCell value={row.original.performance.line.f1} isBold colorClass="text-blue-700" /> },
       ],
     },
+    // End-to-End Group
     {
       id: "e2e",
       header: () => <div className="text-center py-1.5 bg-emerald-100/50 rounded-md text-[10px] font-bold uppercase tracking-widest text-emerald-500 mb-1.5 border border-emerald-200/50">End-to-End</div>,
@@ -112,6 +116,7 @@ export const DetailedTable = ({ systemType }: DetailedTableProps) => {
         { id: "performance_pass_at_1", accessorKey: "performance.pass_at_1", header: "Pass@1", cell: ({ row }) => <span className="font-mono text-[13px] font-bold text-emerald-700">{(row.original.performance.pass_at_1 * 100).toFixed(1)}%</span> },
       ],
     },
+    // Dynamics Group
     {
       id: "dynamics",
       header: () => <div className="text-center py-1.5 bg-amber-100/50 rounded-md text-[10px] font-bold uppercase tracking-widest text-amber-500 mb-1.5 border border-amber-200/50">Dynamics & Cost</div>,

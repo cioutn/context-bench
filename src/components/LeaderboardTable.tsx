@@ -42,7 +42,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import backboneData from "@/data/backbone_results.json";
 import agentData from "@/data/agent_results.json";
 
-// Define a unified interface for the table data
 export interface BenchmarkResult {
   model: string;
   performance: {
@@ -102,13 +101,7 @@ interface LeaderboardTableProps {
 
 export const LeaderboardTable = ({ primaryMetric, systemType }: LeaderboardTableProps) => {
   const data = useMemo<BenchmarkResult[]>(() => {
-    const rawData = systemType === "agent" ? agentData : backboneData;
-    return rawData.map(r => ({
-      ...r,
-      model: systemType === "agent" && !agentData.find(ad => ad.model === r.model) 
-        ? `cmini-swe-agent + ${r.model}` 
-        : r.model
-    })) as BenchmarkResult[];
+    return (systemType === "agent" ? agentData : backboneData) as BenchmarkResult[];
   }, [systemType]);
 
   const [sorting, setSorting] = useState<SortingState>([

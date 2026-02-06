@@ -91,6 +91,16 @@ export default function Home() {
               </div>
             </div>
 
+            <TabsContent value="preview" className="mt-0 outline-none">
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4 }}
+              >
+                <LeaderboardTable primaryMetric={primaryMetric} systemType={systemType} />
+              </motion.div>
+            </TabsContent>
+
             <TabsContent value="detailed" className="mt-0 outline-none">
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
